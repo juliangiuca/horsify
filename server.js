@@ -11,8 +11,7 @@ app.get('/horsify', function (req, res){
   horse.byUrl(req.query.url, req.query.o)
   .then(function (gm) {
     gm.stream('jpg', function (err, stdout, stderr) {
-      console.log('err:', err);
-      console.log('stderr:', stderr);
+      if (err) { console.log('err:', err); }
       stdout.pipe(res);
     })
   })
