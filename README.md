@@ -18,7 +18,7 @@ Or, manually install dependencies:
 
 ### Install: Docker
 ```
-docker run -p 80:3000 juliangiuca/horsify
+docker run -it -p 80:3000 juliangiuca/horsify
 ```
 
 ### Install: Without Docker
