@@ -1,24 +1,28 @@
 {
   "name": "horsify",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "./node_modules/pm2/bin/pm2 start ./server.js -i 0 --name horsify --merge-logs --no-daemon -o ./log/horsify.log -e ./log/horsify.error.log"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Julian Giuca <julian.giuca@gmail.com>",
+  "license": "MIT",
   "engines": {
     "iojs": "1.3.x",
     "npm": "2.5.x"
   },
   "dependencies": {
+    "bunyan": "^1.3.4",
     "express": "^4.11.2",
+    "express-bunyan-logger": "^1.1.1",
     "formidable": "^1.0.17",
     "gm": "^1.17.0",
     "jade": "^1.9.2",
     "lodash": "^3.2.0",
     "opencv": "^3.0.0",
+    "pm2": "^0.12.5",
     "q": "^1.1.2",
     "request": "^2.53.0"
   }
