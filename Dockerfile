@@ -14,10 +14,8 @@ RUN curl -SLO "https://iojs.org/dist/v$IOJS_VERSION/iojs-v$IOJS_VERSION-linux-x6
   && tar -xzf "iojs-v$IOJS_VERSION-linux-x64.tar.gz" -C /usr/local --strip-components=1 \
   && rm "iojs-v$IOJS_VERSION-linux-x64.tar.gz" SHASUMS256.txt.asc
 
-RUN npm install pm2 -g
 
 ADD . /app
-ADD /var/log/horsify /app/logs
 WORKDIR /app
 RUN rm -rf node_modules
 
