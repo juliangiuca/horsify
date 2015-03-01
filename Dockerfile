@@ -19,6 +19,7 @@ RUN npm install pm2 -g
 ADD . /app
 ADD /var/log/horsify /app/logs
 WORKDIR /app
+RUN rm -rf node_modules
 
 EXPOSE 3000
 
