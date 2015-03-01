@@ -5,6 +5,8 @@ Horse as a service. This app runs Open CV's Haar Cascades face detection, and pu
 
 This app is meant entirely as a joke. If you do no find it funny, please fork and delete the repo.
 
+[horsify.me](http://horsify.me)
+
 ### Dependencies
 You can either run this app manually, or using docker.
 
