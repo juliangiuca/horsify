@@ -6,25 +6,25 @@ var log         = require('./lib/logging.js');
 var imageLoader = require('./lib/imageLoader.js');
 var retryableStream = require('./lib/retryableStream.js');
 var _ = require('lodash');
+var favicon = require('serve-favicon');
+var path = require('path');
 
 app.set('view engine', 'jade');
-app.use(require('express-bunyan-logger')());
-app.use(require('express-bunyan-logger').errorLogger());
+//app.use(require('express-bunyan-logger')());
+//app.use(require('express-bunyan-logger').errorLogger());
+app.use(favicon(path.join(__dirname,'public','images','favicon.ico')));
 
 app.get('/url', function (req, res){
   // Take the url, turn it into a hash, save it to disk
   // then redirect the sha url
-  var sha = imageLoader.findOrCreateByUrl(req.query.url, req.query.o);
-  res.redirect('/' + sha);
+  imageLoader.findOrCreateByUrl(req.query.url, req.query.o)
+  .then(function (sha) {
+    res.redirect('/' + sha);
+  });
 
 });
 
 
-// Show an image
-app.get('/:sha', function (req, res) {
-  var sha = req.params.sha;
-  retryableStream(imageLoader.findBySha(sha), res, 0);
-});
 
 app.get('/', function (req, res) {
   var images = [
@@ -35,6 +35,20 @@ app.get('/', function (req, res) {
 
   var pic = images[_.random(0, images.length-1)];
   res.redirect('/url?url=' + pic.url + '&o=' + pic.o );
+});
+
+app.get('/404', function (req, res) {
+  imageLoader.errorImage().pipe(res);
+});
+
+app.get('/bad', function (req, res) {
+  imageLoader.errorImage().pipe(res);
+});
+
+// Show an image - THIS MUST BE THE LAST ROUTE
+app.get('/:sha', function (req, res) {
+  var sha = req.params.sha;
+  retryableStream(imageLoader.findBySha(sha), sha, res);
 });
 
 

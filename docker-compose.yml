@@ -1,8 +1,16 @@
 web:
   restart: on-failure
-  image: juliangiuca/horsify:1.1.0
+  build: .
   ports:
    - "8000:3000"
   volumes:
-   - /var/log/horsify:/app/log
-   - /data/horseImages:/app/horseImages
+   - .:/app
+   - ../horseLogs:/app/log
+   - ../horseImages:/app/horsifiedImages
+  links:
+  - redis
+
+redis:
+  image: redis:2.6
+  ports:
+  - "6379:6379"
