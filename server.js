@@ -1,18 +1,16 @@
 'use strict';
-//require('newrelic');
+if (process.env.NODE_ENV==='production') { require('newrelic'); }
 var express     = require('express');
 var app         = express();
 var log         = require('./lib/logging.js');
 var imageLoader = require('./lib/imageLoader.js');
 var retryableStream = require('./lib/retryableStream.js');
 var _ = require('lodash');
-var favicon = require('serve-favicon');
-var path = require('path');
 
 app.set('view engine', 'jade');
-//app.use(require('express-bunyan-logger')());
-//app.use(require('express-bunyan-logger').errorLogger());
-app.use(favicon(path.join(__dirname,'public','images','favicon.ico')));
+app.use(require('express-bunyan-logger')());
+app.use(require('express-bunyan-logger').errorLogger());
+app.use(express.static(__dirname + '/public'));
 
 app.get('/url', function (req, res){
   // Take the url, turn it into a hash, save it to disk
@@ -34,7 +32,8 @@ app.get('/', function (req, res) {
   ]
 
   var pic = images[_.random(0, images.length-1)];
-  res.redirect('/url?url=' + pic.url + '&o=' + pic.o );
+ // res.redirect('/url?url=' + pic.url + '&o=' + pic.o );
+  res.render('index', { image: pic});
 });
 
 app.get('/404', function (req, res) {

@@ -22,6 +22,8 @@ RUN rm -rf node_modules
 EXPOSE 3000
 
 RUN npm install
+RUN npm install -g bower
+RUN bower install
 
 CMD npm start
 
