@@ -1,16 +1,33 @@
 'use strict';
 if (process.env.NODE_ENV==='production') { require('newrelic'); }
-var express     = require('express');
-var app         = express();
-var log         = require('./lib/logging.js');
-var imageLoader = require('./lib/imageLoader.js');
+var express         = require('express');
+var app             = express();
+var log             = require('./lib/logging.js');
+var imageLoader     = require('./lib/imageLoader.js');
 var retryableStream = require('./lib/retryableStream.js');
-var _ = require('lodash');
+var _               = require('lodash');
 
 app.set('view engine', 'jade');
-app.use(require('express-bunyan-logger')());
-app.use(require('express-bunyan-logger').errorLogger());
+//app.use(require('express-bunyan-logger')());
+//app.use(require('express-bunyan-logger').errorLogger());
 app.use(express.static(__dirname + '/public'));
+
+app.use(function (req, res, next) {
+  var urlMatches = req.url.match(/\/fetch\/(\S+)/);
+
+  if ( urlMatches && ( urlMatches[1].match(/^(left\/|right\/|https?)/) ) ) {
+    var orientMatches = urlMatches[1].match(/^(left|right)\/(\S+)/);
+    var orient        = (orientMatches && orientMatches[1]) || null;
+    var url           = (orientMatches && orientMatches[2]) || urlMatches[1];
+
+    imageLoader.findOrCreateByUrl(url, orient)
+    .then(function (sha) {
+      res.redirect('/' + sha);
+    });
+  } else {
+    next();
+  }
+});
 
 app.get('/url', function (req, res){
   // Take the url, turn it into a hash, save it to disk
@@ -21,8 +38,6 @@ app.get('/url', function (req, res){
   });
 
 });
-
-
 
 app.get('/', function (req, res) {
   var images = [

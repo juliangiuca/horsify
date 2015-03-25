@@ -1,7 +1,12 @@
 extends layout
 
 block content
-  .container-fluid
+  // Fixed navbar
+  nav.navbar.navbar-default.navbar-fixed-top
+    .container
+      .navbar-header
+        a.navbar-brand(href='#') Horsify
+
+  .container
     .col-xs-12
-      .demo
-        img(src= "/url?url=" + image.url)
+      img(src= "/url?url=" + image.url)
