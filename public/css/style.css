@@ -5,3 +5,16 @@ nav {
 .body {
   margin-top: 80px;
 }
+
+.navbar-brand {
+  font-size: 3em;
+}
+
+#url {
+  width: 400px;
+}
+
+#spin {
+  margin-left: 47%;
+  margin-top: 150px;
+}
