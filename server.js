@@ -46,9 +46,9 @@ app.get('/', function (req, res) {
     {url: 'http://upload.wikimedia.org/wikipedia/commons/8/8d/President_Barack_Obama.jpg', o: 'left'}
   ]
 
-  var pic = images[_.random(0, images.length-1)];
+  var image = images[_.random(0, images.length-1)];
  // res.redirect('/url?url=' + pic.url + '&o=' + pic.o );
-  res.render('index', { image: pic});
+  res.render('index', { image: image});
 });
 
 app.get('/404', function (req, res) {
