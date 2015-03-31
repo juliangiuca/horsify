@@ -12,6 +12,11 @@ block content
           .input-group
             span.input-group-addon#basic-addon1 URL
             input.form-control#url(type="text", placeholder="http://www...", aria-describedby="basic-addon1")
+
+        select.form-control
+          option Left
+          option Right
+
         button.btn.btn-primary(onclick="changeImage()") Go
 
   .container.body
@@ -19,3 +24,6 @@ block content
       .center-block
         i.fa.fa-spinner.fa-spin.fa-5x#spin
       img.center-block#img(src= "/fetch/" + image.o + "/" + image.url)
+    .col-xs-12
+      | it's been a thing
+

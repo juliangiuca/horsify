@@ -15,10 +15,10 @@ app.use(express.static(__dirname + '/public'));
 app.use(function (req, res, next) {
   var urlMatches = req.url.match(/\/fetch\/(\S+)/);
 
-  if ( urlMatches && ( urlMatches[1].match(/^(left\/|right\/|https?)/) ) ) {
-    var orientMatches = urlMatches[1].match(/^(left|right)\/(\S+)/);
+  if ( urlMatches && ( urlMatches[1].match(/^(left\/|right\/|https?)/i) ) ) {
+    var orientMatches = urlMatches[1].match(/^(left|right)\/(\S+)/i);
     var orient        = (orientMatches && orientMatches[1]) || null;
-    var url           = (orientMatches && orientMatches[2]) || urlMatches[1];
+    var url           = ((orientMatches && orientMatches[2]) || urlMatches[1]);
 
     imageLoader.findOrCreateByUrl(url, orient)
     .then(function (sha) {
