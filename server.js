@@ -39,6 +39,12 @@ app.get('/url', function (req, res){
 
 });
 
+// old api support
+app.get('/horsify', function (req, res) {
+  var url = req.query.url;
+  res.redirect('/fetch/' + url);
+});
+
 app.get('/', function (req, res) {
   var images = [
     {url: 'http://www.wallpaperfo.com/thumbnails/detail/20120429/ellen%20page%202400x1800%20wallpaper_www.wallpaperfo.com_11.jpg', o: 'right'},
