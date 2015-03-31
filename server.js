@@ -8,8 +8,10 @@ var retryableStream = require('./lib/retryableStream.js');
 var _               = require('lodash');
 
 app.set('view engine', 'jade');
-//app.use(require('express-bunyan-logger')());
-//app.use(require('express-bunyan-logger').errorLogger());
+if (process.env.NODE_ENV==='production') {
+  app.use(require('express-bunyan-logger')());
+  app.use(require('express-bunyan-logger').errorLogger());
+}
 app.use(express.static(__dirname + '/public'));
 
 app.use(function (req, res, next) {
