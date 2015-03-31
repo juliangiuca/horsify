@@ -1,0 +1,28 @@
+extends layout
+
+block content
+  // Fixed navbar
+  nav.navbar.navbar-default.navbar-fixed-top
+    .container
+      .navbar-header
+        a.navbar-brand.tk-grafolita-script(href='#') Horsify
+
+      .navbar-form.navbar-right
+        .form-group
+          .input-group
+            span.input-group-addon#basic-addon1 URL
+            input.form-control#url(type="text", placeholder="http://www...", aria-describedby="basic-addon1")
+
+        select.form-control
+          option Left
+          option Right
+
+        button.btn.btn-primary(onclick="changeImage()") Go
+
+  .container.body
+    .col-xs-12
+      .center-block
+        i.fa.fa-spinner.fa-spin.fa-5x#spin
+      img.center-block#img(src= "/fetch/" + image.o + "/" + image.url)
+    .col-xs-12
+

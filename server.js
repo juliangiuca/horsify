@@ -1,18 +1,33 @@
 'use strict';
-require('newrelic');
-var express     = require('express');
-var app         = express();
-var log         = require('./lib/logging.js');
-var imageLoader = require('./lib/imageLoader.js');
+if (process.env.NODE_ENV==='production') { require('newrelic'); }
+var express         = require('express');
+var app             = express();
+var log             = require('./lib/logging.js');
+var imageLoader     = require('./lib/imageLoader.js');
 var retryableStream = require('./lib/retryableStream.js');
-var _ = require('lodash');
-var favicon = require('serve-favicon');
-var path = require('path');
+var _               = require('lodash');
 
 app.set('view engine', 'jade');
 //app.use(require('express-bunyan-logger')());
 //app.use(require('express-bunyan-logger').errorLogger());
-app.use(favicon(path.join(__dirname,'public','images','favicon.ico')));
+app.use(express.static(__dirname + '/public'));
+
+app.use(function (req, res, next) {
+  var urlMatches = req.url.match(/\/fetch\/(\S+)/);
+
+  if ( urlMatches && ( urlMatches[1].match(/^(left\/|right\/|https?)/i) ) ) {
+    var orientMatches = urlMatches[1].match(/^(left|right)\/(\S+)/i);
+    var orient        = (orientMatches && orientMatches[1]) || null;
+    var url           = ((orientMatches && orientMatches[2]) || urlMatches[1]);
+
+    imageLoader.findOrCreateByUrl(url, orient)
+    .then(function (sha) {
+      res.redirect('/' + sha);
+    });
+  } else {
+    next();
+  }
+});
 
 app.get('/url', function (req, res){
   // Take the url, turn it into a hash, save it to disk
@@ -24,7 +39,11 @@ app.get('/url', function (req, res){
 
 });
 
-
+// old api support
+app.get('/horsify', function (req, res) {
+  var url = req.query.url;
+  res.redirect('/fetch/' + url);
+});
 
 app.get('/', function (req, res) {
   var images = [
@@ -33,8 +52,9 @@ app.get('/', function (req, res) {
     {url: 'http://upload.wikimedia.org/wikipedia/commons/8/8d/President_Barack_Obama.jpg', o: 'left'}
   ]
 
-  var pic = images[_.random(0, images.length-1)];
-  res.redirect('/url?url=' + pic.url + '&o=' + pic.o );
+  var image = images[_.random(0, images.length-1)];
+ // res.redirect('/url?url=' + pic.url + '&o=' + pic.o );
+  res.render('index', { image: image});
 });
 
 app.get('/404', function (req, res) {
