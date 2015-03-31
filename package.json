@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "./node_modules/pm2/bin/pm2 start ./server.js -i 0 --name horsify --merge-logs --no-daemon -o ./log/horsify.log -e ./log/horsify.error.log",
+    "start": "./node_modules/pm2/bin/pm2 start ./server.js -i 0 --name horsify --merge-logs --no-daemon -o ./log/horsify.log -e ./log/horsify.log",
     "dev": "iojs server.js | ./node_modules/bunyan/bin/bunyan"
   },
   "author": "Julian Giuca <julian.giuca@gmail.com>",
