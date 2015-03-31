@@ -6,7 +6,7 @@ RUN apt-get install -y \
     imagemagick
 
 RUN gpg --keyserver pool.sks-keyservers.net --recv-keys 9554F04D7259F04124DE6B476D5A82AC7E37093B DD8F2338BAE7501E3DD5AC78C273792F7D83545D
-ENV IOJS_VERSION 1.3.0
+ENV IOJS_VERSION 1.6.2
 RUN curl -SLO "https://iojs.org/dist/v$IOJS_VERSION/iojs-v$IOJS_VERSION-linux-x64.tar.gz" \
   && curl -SLO "https://iojs.org/dist/v$IOJS_VERSION/SHASUMS256.txt.asc" \
   && gpg --verify SHASUMS256.txt.asc \
@@ -23,7 +23,7 @@ EXPOSE 3000
 
 RUN npm install
 RUN npm install -g bower
-RUN bower install
+RUN bower install --allow-root
 
 CMD npm start
 
