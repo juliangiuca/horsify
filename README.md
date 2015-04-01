@@ -3,24 +3,30 @@
 ### What is it?
 Horse as a service. This app runs Open CV's Haar Cascades face detection, and puts a horses mask over their face.
 
-This app is meant entirely as a joke. If you do no find it funny, please fork and delete the repo.
+This app is meant entirely as a joke. If you do no find it funny, please fork, and then delete the repo.
 
 [horsify.me](http://horsify.me)
 
 ### Dependencies
-You can either run this app manually, or using docker.
+You can either run this app manually, or using docker-compose.
 
 Docker:
 * [Docker](https://www.docker.com/)
 
 Or, manually install dependencies:
 * [Open CV](http://opencv.org/)
-* [Imagemagick](http://www.imagemagick.org/)  
+* [Imagemagick](http://www.imagemagick.org/)
+* [Redis](http://redis.io)
 
 
 ### Install: Docker
 ```
-docker run -it -p 80:3000 juliangiuca/horsify
+docker-compose up
+```
+or for dev
+```
+docker-compose run --service-ports web /bin/bash
+npm run dev
 ```
 
 ### Install: Without Docker
@@ -32,7 +38,7 @@ npm install
 ```
 npm start
 ```
-Alternatively `iojs server.js` or `node server.js` will work too.
+Alternatively `npm run dev` for development, or `iojs server.js` or `node server.js` will work too.
 
 
 ### License
